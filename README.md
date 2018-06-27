@@ -2,15 +2,15 @@
 
 ## Description:
 catalog app built with Python, Flask and SQLAlchemy. The app supports user authentication and authorization using OAuth 2.0 and Facebook Login API. 
-##Languages:
+## Languages: 
  Pyhton
  
-  ##Requirements:
-    #Vagrant
-    #VirtualBox
-    #Python2.7
+  ## Requirements:
+    1. Vagrant
+    2. VirtualBox
+    3. Python2.7
     
-##Installation
+## Installation
 
 a)Ensure you have git installed. To install on Mac, download and install from: http://git-scm.com/download/mac. To install on Windows, download and install from: http://git-scm.com/download/win.
 b)Ensure you have Python installed. To install on Mac, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg. To install on Windows, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12.msi.
@@ -18,7 +18,7 @@ c) Download and install Virtual Box from https://www.virtualbox.org/wiki/Downloa
 d) Download and install Vagrant from https://www.vagrantup.com/downloads.
 
 
-##To Run
+## To Run
 1. Using Git, clone the Udacity VM configuration:
 2. Run: git clone https://github.com/udacity/fullstack-nanodegree-vm.git
 3. This will create a new directory titled vagrant that contains all of the necessary configurations to run this application.
