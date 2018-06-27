@@ -12,10 +12,10 @@ catalog app built with Python, Flask and SQLAlchemy. The app supports user authe
     
 ## Installation
 
-a)Ensure you have git installed. To install on Mac, download and install from: http://git-scm.com/download/mac. To install on Windows, download and install from: http://git-scm.com/download/win.
-b)Ensure you have Python installed. To install on Mac, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg. To install on Windows, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12.msi.
-c) Download and install Virtual Box from https://www.virtualbox.org/wiki/Downloads.
-d) Download and install Vagrant from https://www.vagrantup.com/downloads.
+1. Ensure you have git installed. To install on Mac, download and install from: http://git-scm.com/download/mac. To install on Windows, download and install from: http://git-scm.com/download/win.
+2. Ensure you have Python installed. To install on Mac, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg. To install on Windows, download and install from: https://www.python.org/ftp/python/2.7.12/python-2.7.12.msi.
+3. Download and install Virtual Box from https://www.virtualbox.org/wiki/Downloads.
+4. Download and install Vagrant from https://www.vagrantup.com/downloads.
 
 
 ## To Run
