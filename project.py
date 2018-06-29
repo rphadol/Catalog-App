@@ -349,7 +349,7 @@ def showCategory(category_name):
     count = session.query(Items).filter_by(category=category).count()
     creator = getUserInfo(category.user_id)
     if ('username' not in login_session or
-        creator.id != login_session['user_id']):
+            creator.id != login_session['user_id']):
         return render_template('public_items.html',
                                category=Category.name,
                                categories=categories,
@@ -365,14 +365,14 @@ def showCategory(category_name):
                                user=user)
 
 
-# Display a Specific Item
+# a Specific Item
 @app.route('/catalog/<path:category_name>/<path:item_name>/')
 def showItem(category_name, item_name):
     item = session.query(Items).filter_by(name=item_name).one()
     creator = getUserInfo(item.user_id)
     categories = session.query(Category).order_by(asc(Category.name))
     if ('username' not in login_session or
-        creator.id != login_session['user_id']):
+            creator.id != login_session['user_id']):
         return render_template('public_itemdetail.html',
                                item=item,
                                category=category_name,
@@ -410,14 +410,11 @@ def editCategory(category_name):
     editedCategory = session.query(Category) \
                  .filter_by(name=category_name).one()
     category = session.query(Category).filter_by(name=category_name).one()
-    # See if the logged in user is the owner of item
     creator = getUserInfo(editedCategory.user_id)
     user = getUserInfo(login_session['user_id'])
-    # If logged in user != item owner redirect them
     if creator.id != login_session['user_id']:
         flash("You cannot edit this Category,belongs to %s" % creator.name)
         return redirect(url_for('showCatalog'))
-    # POST methods
     if request.method == 'POST':
         if request.form['name']:
             editedCategory.name = request.form['name']
@@ -436,10 +433,8 @@ def editCategory(category_name):
 @login_required
 def deleteCategory(category_name):
     categoryToDelete = session.query(Category).filter_by(name=category_name).one()  # noqa
-    # See if the logged in user is the owner of item
     creator = getUserInfo(categoryToDelete.user_id)
     user = getUserInfo(login_session['user_id'])
-    # If logged in user != item owner redirect them
     if creator.id != login_session['user_id']:
         flash("You cannot delete this Category,belongs to %s" % creator.name)
         return redirect(url_for('showCatalog'))
@@ -482,14 +477,11 @@ def addItem():
 def editItem(category_name, item_name):
     editedItem = session.query(Items).filter_by(name=item_name).one()
     categories = session.query(Category).all()
-    # See if the logged in user is the owner of item
     creator = getUserInfo(editedItem.user_id)
     user = getUserInfo(login_session['user_id'])
-    # If logged in user != item owner redirect them
     if creator.id != login_session['user_id']:
         flash("You cannot edit this item. Item belongs to %s" % creator.name)
         return redirect(url_for('showCatalog'))
-    # POST methods
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -519,10 +511,8 @@ def deleteItem(category_name, item_name):
     itemToDelete = session.query(Items).filter_by(name=item_name).one()
     category = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).all()
-    # See if the logged in user is the owner of item
     creator = getUserInfo(itemToDelete.user_id)
     user = getUserInfo(login_session['user_id'])
-    # If logged in user != item owner redirect them
     if creator.id != login_session['user_id']:
         flash("You cannot delete this item. Item belongs to %s" % creator.name)
         return redirect(url_for('showCatalog'))
