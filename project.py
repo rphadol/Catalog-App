@@ -343,7 +343,8 @@ def showCatalog():
 def showCategory(category_name):
     categories = session.query(Category).order_by(asc(Category.name))
     category = session.query(Category).filter_by(name=category_name).one()
-    items = session.query(Items).filter_by(category=category).order_by(asc(Items.name)).all()
+    items = session.query(Items).filter_by(category=category) \
+        .order_by(asc(Items.name)).all()
     print items
     count = session.query(Items).filter_by(category=category).count()
     creator = getUserInfo(category.user_id)
@@ -370,7 +371,8 @@ def showItem(category_name, item_name):
     item = session.query(Items).filter_by(name=item_name).one()
     creator = getUserInfo(item.user_id)
     categories = session.query(Category).order_by(asc(Category.name))
-    if 'username' not in login_session or creator.id != login_session['user_id']:
+    if ('username' not in login_session or
+        creator.id != login_session['user_id']):
         return render_template('public_itemdetail.html',
                                item=item,
                                category=category_name,
@@ -405,8 +407,8 @@ def addCategory():
 @app.route('/catalog/<path:category_name>/edit', methods=['GET', 'POST'])
 @login_required
 def editCategory(category_name):
-    editedCategory = (session.query(Category).filter_by \
-                      (name=category_name).one())
+    editedCategory = session.query(Category) \
+                 .filter_by(name=category_name).one()
     category = session.query(Category).filter_by(name=category_name).one()
     # See if the logged in user is the owner of item
     creator = getUserInfo(editedCategory.user_id)
@@ -433,7 +435,7 @@ def editCategory(category_name):
 @app.route('/catalog/<path:category_name>/delete', methods=['GET', 'POST'])
 @login_required
 def deleteCategory(category_name):
-    categoryToDelete = session.query(Category).filter_by(name=category_name).one() # noqa
+    categoryToDelete = session.query(Category).filter_by(name=category_name).one()  # noqa
     # See if the logged in user is the owner of item
     creator = getUserInfo(categoryToDelete.user_id)
     user = getUserInfo(login_session['user_id'])
@@ -460,7 +462,8 @@ def addItem():
         newItem = Items(
             name=request.form['name'],
             description=request.form['description'],
-            category=session.query(Category).filter_by(name=request.form['category']).one(),
+            category=(session.query(Category)
+                      .filter_by(name=request.form['category']).one()),
             date=datetime.datetime.now(),
             user_id=login_session['user_id'])
         session.add(newItem)
@@ -493,7 +496,8 @@ def editItem(category_name, item_name):
         if request.form['description']:
             editedItem.description = request.form['description']
         if request.form['category']:
-            category = session.query(Category).filter_by(name=request.form['category']).one()
+            category = session.query(Category) \
+                   .filter_by(name=request.form['category']).one()
             editedItem.category = category
         time = datetime.datetime.now()
         editedItem.date = time
