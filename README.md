@@ -25,11 +25,11 @@ catalog app built with Python, Flask and SQLAlchemy. The app supports user authe
 4. Move to the vagrant folder by entering: cd ~/vagrant/
 5.Clone/Download the github repository
 6. Unzip repo
-7.Run Vagrant by entering: vagrant up
-8.Log into Vagrant VM by entering: vagrant ssh
-9.Move to catalog directory by entering: cd /vagrant
+7. Run Vagrant by entering: vagrant up
+8. Log into Vagrant VM by entering: vagrant ssh
+9. Move to catalog directory by entering: cd /vagrant
 10. Run database_setup.py file to create database "Catalog.db" and run lotsofdata.py to populate data in database. 
-11.Run the main project file, run: python project.py
+11. Run the main project file, run: python project.py
    View the app on your browser, go to: http://0.0.0.0:5000/    
     
  
