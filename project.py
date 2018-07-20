@@ -332,6 +332,7 @@ def ItemJSON(category_name, item_name):
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
+    """"Shows all Categories and latest added items."""
     categories = session.query(Category).order_by(asc(Category.name))
     items = session.query(Items).order_by(desc(Items.date)).limit(5)
     return render_template('catalog.html',
@@ -342,8 +343,10 @@ def showCatalog():
 # Category Items
 @app.route('/catalog/<path:category_name>/items')
 def showCategory(category_name):
+    """Dispaly Category with items."""
     categories = session.query(Category).order_by(asc(Category.name))
-    category = session.query(Category).filter_by(name=category_name).one()
+    category = session.query(Category).filter_by(name=category_name) \
+        .one_or_none()
     items = session.query(Items).filter_by(category=category) \
         .order_by(asc(Items.name)).all()
     print items
@@ -369,7 +372,10 @@ def showCategory(category_name):
 # a Specific Item
 @app.route('/catalog/<path:category_name>/<path:item_name>/')
 def showItem(category_name, item_name):
-    item = session.query(Items).filter_by(name=item_name).one()
+    """Displays Item name and its description."""
+    catid = session.query(Category).filter_by(name=category_name).one_or_none()
+    item = session.query(Items). \
+        filter_by(name=item_name, category_id=catid.id).one_or_none()
     creator = getUserInfo(item.user_id)
     categories = session.query(Category).order_by(asc(Category.name))
     if ('username' not in login_session or
@@ -391,6 +397,7 @@ def showItem(category_name, item_name):
 @app.route('/catalog/addcategory', methods=['GET', 'POST'])
 @login_required
 def addCategory():
+    """User can add Category"""
     if request.method == 'POST':
         newCategory = Category(
             name=request.form['name'],
@@ -408,9 +415,11 @@ def addCategory():
 @app.route('/catalog/<path:category_name>/edit', methods=['GET', 'POST'])
 @login_required
 def editCategory(category_name):
+    """Owner of the category can edit Category name."""
     editedCategory = session.query(Category) \
-                 .filter_by(name=category_name).one()
-    category = session.query(Category).filter_by(name=category_name).one()
+        .filter_by(name=category_name).one()
+    category = (
+        session.query(Category).filter_by(name=category_name).one_or_none())
     creator = getUserInfo(editedCategory.user_id)
     user = getUserInfo(login_session['user_id'])
     if creator.id != login_session['user_id']:
@@ -433,6 +442,7 @@ def editCategory(category_name):
 @app.route('/catalog/<path:category_name>/delete', methods=['GET', 'POST'])
 @login_required
 def deleteCategory(category_name):
+    """Delete Category with Items that it includes"""
     categoryToDelete = session.query(Category).filter_by(name=category_name).one()  # noqa
     creator = getUserInfo(categoryToDelete.user_id)
     user = getUserInfo(login_session['user_id'])
@@ -476,7 +486,10 @@ def addItem():
            methods=['GET', 'POST'])
 @login_required
 def editItem(category_name, item_name):
-    editedItem = session.query(Items).filter_by(name=item_name).one()
+    """creator of item can edit item name and description."""
+    catid = session.query(Category).filter_by(name=category_name).one_or_none()
+    editedItem = session.query(Items). \
+        filter_by(name=item_name, category_id=catid.id).one_or_none()
     categories = session.query(Category).all()
     creator = getUserInfo(editedItem.user_id)
     user = getUserInfo(login_session['user_id'])
@@ -509,8 +522,12 @@ def editItem(category_name, item_name):
            methods=['GET', 'POST'])
 @login_required
 def deleteItem(category_name, item_name):
-    itemToDelete = session.query(Items).filter_by(name=item_name).one()
-    category = session.query(Category).filter_by(name=category_name).one()
+    """creator of item can delete item name and description."""
+    catid = session.query(Category).filter_by(name=category_name).one_or_none()
+    itemToDelete = session.query(Items). \
+        filter_by(name=item_name, category_id=catid.id).one_or_none()
+    category = session.query(Category).filter_by(name=category_name) \
+        .one_or_none()
     categories = session.query(Category).all()
     creator = getUserInfo(itemToDelete.user_id)
     user = getUserInfo(login_session['user_id'])
